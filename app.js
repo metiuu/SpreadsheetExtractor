@@ -1,5 +1,27 @@
 const express = require('express');
 const multer = require('multer');
+const fs = require('fs');
+const xlsx = require('xlsx');
+
+function getStudentData(workbook)
+{
+    /* Get worksheet */
+    var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+     
+    
+    workbook.SheetNames.forEach(e => {
+        var current_sheet = workbook.Sheets[e];
+        var student_name = current_sheet['H2'];
+        var subject = current_sheet['B3'];
+        var month = current_sheet['A3'];
+        var year = current_sheet['D3'];
+
+        console.log(e);
+        console.log('Student name: ',student_name.v);
+        console.log('Subject: ',subject.v);
+        console.log('Month: ',month.v, year.v);
+    });
+}
 
 // initialize express app
 const storage = multer.diskStorage(
@@ -57,5 +79,8 @@ app.get('/result', (request, response) =>
 
 app.post('/result', upload.single('xls'), (request, response) => 
 {
-    response.redirect('/result');   
+    response.redirect('/result');
+    var workbook = xlsx.readFile('./uploads/sample.xlsx');
+    getStudentData(workbook);
+    fs.unlink('./uploads/sample.xlsx',() => {console.log('File deleted')});  
 })
