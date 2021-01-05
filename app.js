@@ -7,7 +7,11 @@ function getStudentData(workbook)
 {
     /* Get worksheet */
     var worksheet = workbook.Sheets[workbook.SheetNames[0]];
-     
+    var sheetObj = {
+        sName: "",
+        sub: "",
+        time: ""
+    }
     
     workbook.SheetNames.forEach(e => {
         var current_sheet = workbook.Sheets[e];
@@ -20,7 +24,16 @@ function getStudentData(workbook)
         console.log('Student name: ',student_name.v);
         console.log('Subject: ',subject.v);
         console.log('Month: ',month.v, year.v);
+        sheetObj.sName = student_name
+        sheetObj.sub = subject
+        sheetObj.time = month.v + " " + year.v
     });
+
+    return sheetObj
+
+    
+
+    return sheetObject
 }
 
 // initialize express app
@@ -79,8 +92,13 @@ app.get('/result', (request, response) =>
 
 app.post('/result', upload.single('xls'), (request, response) => 
 {
-    response.redirect('/result');
-    var workbook = xlsx.readFile('./uploads/sample.xlsx');
-    getStudentData(workbook);
-    fs.unlink('./uploads/sample.xlsx',() => {console.log('File deleted')});  
+    
+    var workbook = xlsx.readFile(`./uploads/${request.file.filename}`);
+    const sheetObj = getStudentData(workbook);
+
+    console.log(sheetObj.sName.v)
+    response.render("testing.ejs", {studentName: sheetObj.sName.v, subject: sheetObj.sub.v, time: sheetObj.time})
+    fs.unlink(`./uploads/${request.file.filename}`, () => {
+      console.log("File deleted");
+    });  
 })
