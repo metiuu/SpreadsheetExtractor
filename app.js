@@ -5,14 +5,14 @@ const xlsx = require('xlsx');
 
 function getStudentData(workbook)
 {
-    /* Get worksheet */
-    var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    // Initialize sheet object with student data
     var sheetObj = {
         sName: "",
         sub: "",
         time: ""
     }
     
+    // extract desired data from each sheet
     workbook.SheetNames.forEach(e => {
         var current_sheet = workbook.Sheets[e];
         var student_name = current_sheet['H2'];
@@ -20,20 +20,16 @@ function getStudentData(workbook)
         var month = current_sheet['A3'];
         var year = current_sheet['D3'];
 
-        console.log(e);
-        console.log('Student name: ',student_name.v);
-        console.log('Subject: ',subject.v);
-        console.log('Month: ',month.v, year.v);
+        // console.log(e);
+        // console.log('Student name: ',student_name.v);
+        // console.log('Subject: ',subject.v);
+        // console.log('Month: ',month.v, year.v);
         sheetObj.sName = student_name
         sheetObj.sub = subject
         sheetObj.time = month.v + " " + year.v
     });
 
-    return sheetObj
-
-    
-
-    return sheetObject
+    return sheetObj;
 }
 
 // initialize express app
@@ -60,8 +56,8 @@ const upload = multer(
             }
             else
             {
-                cb(null, false);
-                return cb(new Error('Only .xls and .xlsx allowed'));
+                request.fileValidationError = 'Illegal file type';
+                return cb(null, false, request.fileValidationError);
             }
         }
     });
@@ -87,18 +83,37 @@ app.get('/upload', (request, response) =>
 
 app.get('/result', (request, response) => 
 {
-    response.render('result.ejs', {title: 'Result Page'});
+    response.redirect('/manual');
 })
 
 app.post('/result', upload.single('xls'), (request, response) => 
 {
-    
-    var workbook = xlsx.readFile(`./uploads/${request.file.filename}`);
-    const sheetObj = getStudentData(workbook);
+    // error handling (illegal file type)
+    if(request.fileValidationError)
+    {
+        response.status(415).render('415',{title: 'Error 415'});
+    }
+    else
+    {
+        var workbook = xlsx.readFile(`./uploads/${request.file.filename}`);
+        const sheetObj = getStudentData(workbook);
 
-    console.log(sheetObj.sName.v)
-    response.render("testing.ejs", {studentName: sheetObj.sName.v, subject: sheetObj.sub.v, time: sheetObj.time})
-    fs.unlink(`./uploads/${request.file.filename}`, () => {
-      console.log("File deleted");
-    });  
+        // console.log(sheetObj.sName.v)
+        response.render("result.ejs", {title: 'Upload successful!', studentName: sheetObj.sName.v, subject: sheetObj.sub.v, time: sheetObj.time})
+        fs.unlink(`./uploads/${request.file.filename}`, () => 
+        {
+            console.log("File deleted");
+        });
+    }
+}) 
+
+app.get('/manual', (request, response) => 
+{
+    response.render('manual.ejs', {title: 'Manual Input'});
 })
+
+// 404 page
+app.use(function(request, response)
+{
+    response.status(404).render('404',{title: 'Error 404'});
+});
