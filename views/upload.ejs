@@ -1,0 +1,12 @@
+<html lang="en">
+    <%- include('./partials/head.ejs') %>
+    <body>
+        <%- include('./partials/nav.ejs') %> 
+        <form action="/result" method="POST" enctype="multipart/form-data">
+            <input type="file" class="custom-file-input" name="xls" id="xls">
+            <label class="custom-file-label" for="xls">Select XLS file...</label>
+        
+              <button type="submit">Upload</button>
+        </form>
+    </body> 
+</html>
