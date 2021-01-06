@@ -9,7 +9,9 @@ function getStudentData(workbook)
     var sheetObj = {
         sName: "",
         sub: "",
-        time: ""
+        time: "",
+        totalSheets: "",
+        lastBook: ""
     }
     
     // extract desired data from each sheet
@@ -27,6 +29,45 @@ function getStudentData(workbook)
         sheetObj.sName = student_name
         sheetObj.sub = subject
         sheetObj.time = month.v + " " + year.v
+
+        // count worksheets done (loop through rows and columns)
+        // range = E6:N37
+        current_sheet['!ref'] = "E6:N37";
+        var count = 0;
+        var range = xlsx.utils.decode_range(current_sheet['!ref']);
+        for(var rowNum = range.s.r; rowNum <= range.e.r; ++rowNum) {
+            for(var colNum = range.s.c; colNum <= range.e.c; ++colNum) {
+                var nextCell = current_sheet[
+                    xlsx.utils.encode_cell({r: rowNum, c: colNum})
+                 ];
+                 if( typeof nextCell !== 'undefined' ){
+                    count++;
+            }
+          }
+        }
+        sheetObj.totalSheets = count
+
+        // last worksheet done
+        // last row of spreadsheet, dont know how many rows there are
+        for(var rowNum = range.s.r; rowNum <= range.e.r; ++rowNum) {
+            for(var colNum = range.s.c; colNum <= range.e.c; ++colNum) {
+                var levelCell = current_sheet[
+                    xlsx.utils.encode_cell({r: rowNum, c: 1})
+                 ];
+                 if( typeof levelCell !== 'undefined' ){
+                    var lastLevel = levelCell.v;                 
+                }
+
+                var wbCell = current_sheet[
+                    xlsx.utils.encode_cell({r: rowNum, c: 2})
+                 ];
+                 if( typeof wbCell !== 'undefined' ){
+                    var lastWB = wbCell.v;                 
+                }
+          }
+        }
+
+        sheetObj.lastBook = lastLevel + " " + lastWB
     });
 
     return sheetObj;
@@ -99,7 +140,8 @@ app.post('/result', upload.single('xls'), (request, response) =>
         const sheetObj = getStudentData(workbook);
 
         // console.log(sheetObj.sName.v)
-        response.render("result.ejs", {title: 'Upload successful!', studentName: sheetObj.sName.v, subject: sheetObj.sub.v, time: sheetObj.time})
+        response.render("result.ejs", {title: 'Upload successful!', studentName: sheetObj.sName.v, subject: sheetObj.sub.v, 
+                        time: sheetObj.time, totalSheets: sheetObj.totalSheets, lastBook: sheetObj.lastBook})
         fs.unlink(`./uploads/${request.file.filename}`, () => 
         {
             console.log("File deleted");
