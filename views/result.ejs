@@ -4,20 +4,42 @@
     <body>
         <%- include('./partials/nav.ejs') %> 
         <form action="" method="POST">
-            <label for="sName">Student Name: </label>
-            <input type="text" name="sName" value="<%= studentName %>" />
+            <% for (var i = 0; i < sheets.length; i++) { %>
 
-            <label for="subject">Subject: </label>
-            <input type="text" name="subject" value="<%= subject %>" />
+      <label for="<%= "sName" + i %>">Student Name: </label>
+      <input
+        type="text"
+        name="<%= "sName" + i %>"
+        id="<%= "sName" + i %>"
+        value="<%= sheets[i].sName %>"
+      />
 
-            <label for="month">Month: </label>
-            <input type="text" name="month" value="<%= time %>" />
+      <label for="<%= "subject" + i %>">Subject: </label>
+      <input
+        type="text"
+        name="<%= "subject" + i %>"
+        id="<%= "subject" + i %>"
+        value="<%= sheets[i].subject %>"
+      />
 
-            <label for="total">Total worksheets done: </label>
-            <input type="text" name="total" value="<%= totalSheets %>" />
+      <label for="<%= "month" + i %>">Month: </label>
+      <input
+        type="text"
+        name="<%= "month" + i %>"
+        id="<%= "month" + i %>"
+        value="<%= sheets[i].date %>"
+      />
+
+       <label for="total">Total worksheets done: </label>
+            <input type="text" name="total" value="<%= sheets[i].totalSheets %>" />
 
             <label for="total">Last worbook done: </label>
-            <input type="text" name="last" value="<%= lastBook %>" />
+            <input type="text" name="last" value="<%= sheets[i].lastBook %>" />
+      <br>
+
+       <% } %>         
+
+           
 
             <input type="submit" />
 

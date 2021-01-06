@@ -8,11 +8,13 @@ function getStudentData(workbook)
     // Initialize sheet object with student data
     var sheetObj = {
         sName: "",
-        sub: "",
-        time: "",
+        subject: "",
+        date: "",
         totalSheets: "",
         lastBook: ""
     }
+
+    var sheets = []
     
     // extract desired data from each sheet
     workbook.SheetNames.forEach(e => {
@@ -22,13 +24,10 @@ function getStudentData(workbook)
         var month = current_sheet['A3'];
         var year = current_sheet['D3'];
 
-        // console.log(e);
-        // console.log('Student name: ',student_name.v);
-        // console.log('Subject: ',subject.v);
-        // console.log('Month: ',month.v, year.v);
-        sheetObj.sName = student_name
-        sheetObj.sub = subject
-        sheetObj.time = month.v + " " + year.v
+        
+        sheetObj.sName = student_name.v
+        sheetObj.subject = subject.v
+        sheetObj.date = month.v + " " + year.v
 
         // count worksheets done (loop through rows and columns)
         // range = E6:N37
@@ -68,9 +67,10 @@ function getStudentData(workbook)
         }
 
         sheetObj.lastBook = lastLevel + " " + lastWB
+        sheets.push({sName: student_name.v, subject: subject.v, date: month.v + " " + year.v, totalSheets: count, lastBook: lastLevel + " " + lastWB})
     });
 
-    return sheetObj;
+    return sheets;
 }
 
 // initialize express app
@@ -137,11 +137,10 @@ app.post('/result', upload.single('xls'), (request, response) =>
     else
     {
         var workbook = xlsx.readFile(`./uploads/${request.file.filename}`);
-        const sheetObj = getStudentData(workbook);
+        const sheetArr = getStudentData(workbook);
 
         // console.log(sheetObj.sName.v)
-        response.render("result.ejs", {title: 'Upload successful!', studentName: sheetObj.sName.v, subject: sheetObj.sub.v, 
-                        time: sheetObj.time, totalSheets: sheetObj.totalSheets, lastBook: sheetObj.lastBook})
+        response.render("result.ejs", {title: 'Upload successful!', sheets: sheetArr})
         fs.unlink(`./uploads/${request.file.filename}`, () => 
         {
             console.log("File deleted");
