@@ -1,12 +1,21 @@
 <html lang="en">
-    <%- include('./partials/head.ejs') %>
-    <body>
-        <%- include('./partials/nav.ejs') %> 
-        <form action="/result" method="POST" enctype="multipart/form-data">
-            <input type="file" class="custom-file-input" name="xls" id="xls">
-            <label class="custom-file-label" for="xls">Select XLS file...</label>
-        
-              <button type="submit">Upload</button>
-        </form>
-    </body> 
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+    <div class="container">
+        <h2>File Upload</h2>
+      <form action="/result" method="POST" enctype="multipart/form-data">
+        <div class="form-group custom-file" id="file-input">
+          <input
+            type="file"
+            class="custom-file-input form-control"
+            name="xls"
+            id="xls"
+          />
+          <label class="custom-file-label" for="xls">Select XLS file...</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
+    </div>
+  </body>
 </html>

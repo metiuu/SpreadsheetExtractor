@@ -1,57 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('./partials/head.ejs') %>
-    <body>
-        <%- include('./partials/nav.ejs') %> 
-        <form action="/students" method="POST">
-            <% for (var i = 0; i < sheets.length; i++) { %>
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+    <div class="container">
+      <form action="/students" method="POST">
+        <h2>Student data from uploaded file: </h2>
+        <% for (var i = 0; i < sheets.length; i++) { %>
 
-      <label for="studentName">Student Name: </label>
-      <input
-        type="text"
-        name= "<%= "students[" + i +"][studentName]" %>"
-        id= "<%= "students[" + i +"][studentName]" %>"
-        value="<%= sheets[i].sName %>"
-      />
+        <div>
+          <h5>Student Number <%= i + 1 %></h5>
+          <div class="form-group row">
+            <label for="studentName" class="col-sm-3 col-form-label"
+              >Student Name:
+            </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control"name= "<%= "students[" + i
+              +"][studentName]" %>" id= "<%= "students[" + i +"][studentName]"
+              %>" value="<%= sheets[i].sName %>" />
+            </div>
+          </div>
 
-      <label for="subject">Subject: </label>
-      <input
-        type="text"
-        name= "<%= "students[" + i +"][subject]" %>"
-        id= "<%= "students[" + i +"][subject" %>"
-        value="<%= sheets[i].subject %>"
-      />
+          <div class="form-group row">
+            <label for="subject" class="col-sm-3 col-form-label"
+              >Subject:
+            </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name= "<%= "students[" + i
+              +"][subject]" %>" id= "<%= "students[" + i +"][subject" %>"
+              value="<%= sheets[i].subject %>" />
+            </div>
+          </div>
 
-      <label for="date">Month: </label>
-      <input
-        type="text"
-        name= "<%= "students[" + i +"][date]" %>"
-        id= "<%= "students[" + i +"][date]" %>"
-        value="<%= sheets[i].date %>"
-      />
+          <div class="form-group row">
+            <label for="date" class="col-sm-3 col-form-label">Month: </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control"name= "<%= "students[" + i
+              +"][date]" %>" id= "<%= "students[" + i +"][date]" %>" value="<%=
+              sheets[i].date %>" />
+            </div>
+          </div>
 
-       <label for="total">Total worksheets done: </label>
-        <input 
-        type= "text" 
-        name= "<%= "students[" + i +"][totalSheets]" %>"
-        id = "<%= "students[" + i +"][totalSheets]" %>"
-        value="<%= sheets[i].totalSheets %>" />
+          <div class="form-group row">
+            <label for="totalSheets" class="col-sm-3 col-form-label"
+              >Total worksheets done:
+            </label>
+            <div class="col-sm-9">
+              <input type= "text" class="form-control" name= "<%= "students[" +
+              i +"][totalSheets]" %>" id = "<%= "students[" + i
+              +"][totalSheets]" %>" value="<%= sheets[i].totalSheets %>" />
+            </div>
+          </div>
 
-        <label for="last">Last worbook done: </label>
-        <input 
-        type= "text" 
-        name= "<%= "students[" + i +"][lastBook]" %>"
-        id = "<%= "students[" + i +"][lastBook]" %>"
-        value="<%= sheets[i].lastBook %>" />
-      <br>
+          <div class="form-group row">
+            <label for="lastBook" class="col-sm-3 col-form-label"
+              >Last worbook done:
+            </label>
+            <div class="col-sm-9">
+              <input type= "text" class="form-control" name= "<%= "students[" +
+              i +"][lastBook]" %>" id = "<%= "students[" + i +"][lastBook]" %>"
+              value="<%= sheets[i].lastBook %>" />
+            </div>
+          </div>
+        </div>
+        <hr>
+        <% } %>
 
-       <% } %>         
+        <input type="submit" class="btn btn-primary"/>
+      </form>
+    </div>
 
-           
-
-            <input type="submit" />
-
-        </form>
-        <script src="" async defer></script>
-    </body>
+    <script src="" async defer></script>
+  </body>
 </html>

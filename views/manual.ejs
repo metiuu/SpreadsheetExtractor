@@ -1,26 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('./partials/head.ejs') %>
-    <body>
-        <%- include('./partials/nav.ejs') %> 
-        <form action="/students" method="POST">
-            <label for="studentName">Student Name: </label>
-            <input type="text" name="studentName" id="studentName"/>
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+    <div class="container">
+<p class="lead">Enter data from spreadsheet: </p>
+      <form action="/students" method="POST">
+        <div class="form-group row">
+          <label for="studentName" class="col-sm-3 col-form-label"
+            >Student Name:
+          </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              name="studentName"
+              id="studentName"
+              class="form-control"
+            />
+          </div>
+        </div>
 
-            <label for="subject">Subject: </label>
-            <input type="text" name="subject" id="subject" />
+        <div class="form-group row">
+          <label for="subject" class="col-sm-3 col-form-label">Subject: </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              name="subject"
+              id="subject"
+              class="form-control"
+            />
+          </div>
+        </div>
 
-            <label for="date">Date: </label>
-            <input type="text" name="date" id="date" />
+        <div class="form-group row">
+          <label for="date" class="col-sm-3 col-form-label">Date: </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              name="date"
+              id="date"
+              class="form-control"
+            />
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label for="totalSheets" class="col-sm-3 col-form-label">Total Worksheets Done: </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              name="totalSheets"
+              id="totalSheets"
+              class="form-control"
+            />
+          </div>
+        </div>
+       
+         <div class="form-group row">
+          <label for="lastBook" class="col-sm-3 col-form-label">Last Workbook Done: </label>
+          <div class="col-sm-9">
+            <input
+              type="text"
+              name="lastBook"
+              id="lastBook"
+              class="form-control"
+            />
+          </div>
+        </div>
 
-            <label for="totalSheets">Total worksheets done: </label>
-            <input type="text" name="totalSheets" id="totalSheets"/>
-
-            <label for="lastBook">Last worbook done: </label>
-            <input type="text" name="lastBook" id="lastBook"/>
-
-            <input type= "submit" />
-
-        </form>
-    </body>
+    
+        <input type="submit" class="btn btn-primary"/>
+      </form>
+    </div>
+  </body>
 </html>

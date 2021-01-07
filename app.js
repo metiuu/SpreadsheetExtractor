@@ -9,14 +9,6 @@ const bodyParser = require('body-parser');
 function getStudentData(workbook)
 {
     // Initialize sheet object with student data
-    var sheetObj = {
-        sName: "",
-        subject: "",
-        date: "",
-        totalSheets: "",
-        lastBook: ""
-    }
-
     var sheets = []
     
     // extract desired data from each sheet
@@ -26,11 +18,6 @@ function getStudentData(workbook)
         var subject = current_sheet['B3'];
         var month = current_sheet['A3'];
         var year = current_sheet['D3'];
-
-        
-        sheetObj.sName = student_name.v
-        sheetObj.subject = subject.v
-        sheetObj.date = month.v + " " + year.v
 
         // count worksheets done (loop through rows and columns)
         // range = E6:N37
@@ -47,7 +34,6 @@ function getStudentData(workbook)
             }
           }
         }
-        sheetObj.totalSheets = count
 
         // last worksheet done
         // last row of spreadsheet, dont know how many rows there are
@@ -69,7 +55,6 @@ function getStudentData(workbook)
           }
         }
 
-        sheetObj.lastBook = lastLevel + " " + lastWB
         sheets.push({sName: student_name.v, subject: subject.v, date: month.v + " " + year.v, totalSheets: count, lastBook: lastLevel + " " + lastWB})
     });
 
@@ -120,6 +105,8 @@ app.set('view engine', 'ejs');
 // middleware and static files
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static("public"))
 
 // routes
 app.get('/', (request, response) => 

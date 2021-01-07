@@ -1,24 +1,39 @@
 <html lang="en">
   <%- include('./partials/head.ejs') %> 
+   
 <body>
 
   <%- include('./partials/nav.ejs') %> 
 
-  <div class="blogs content">
+  <div class="container">
       <h2>All Students</h2>
 
       <% if (students.length > 0) { %>
+
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <th>Student Name</th>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Total Sheets Done</th>
+            <th>Last Workbook Done</th>
+          </thead>
+          <tbody>         
+            
         <% students.forEach(function(s){ %>
-            <h3 class="studentName"><%= s.studentName %> </h3>
-            <p class="subject"><%= s.subject %> </p>
-            <p class="date"><%= s.date %> </p>
-            <p class="totalSheets"><%= s.totalSheets %> </p>
-            <p class="lastBook"><%= s.lastBook %> </p>
+            <tr>
+            <td><p class="studentName"><%= s.studentName %> </p></td>
+            <td><p class="subject"><%= s.subject %> </p></td>
+            <td><p class="date"><%= s.date %> </p></td>
+            <td><p class="totalSheets"><%= s.totalSheets %> </p></td>
+            <td><p class="lastBook"><%= s.lastBook %> </p></td>
+            </tr>
           </a>
         <% }) %>
-       
+         </tbody>
+       </table>
       <% } else { %>
-          <p>There are no blogs to display</p>
+          <p>There are no students to display</p>
       <% } %>
 
   </div>

@@ -1,0 +1,43 @@
+#nav {
+    justify-content: space-between;
+}
+#nav h1 {
+    margin: 0
+}
+
+#nav p {
+    padding: 0;
+}
+
+#nav ul {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    
+}
+
+#nav ul li a {
+    color:lightgray;
+}
+
+#nav ul li a:hover {
+    color:white;
+}
+.nav-item{
+    display: inline;
+}
+
+.navbar-text {
+    display: block;
+}
+
+
+#file-input {
+    display: block;
+    position: relative;
+    margin: 10px 0 10px 0;
+}
+
+h2 {
+    margin: 10px 0 10px 0;
+}
