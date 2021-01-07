@@ -3,19 +3,24 @@
     <%- include('./partials/head.ejs') %>
     <body>
         <%- include('./partials/nav.ejs') %> 
-        <form action="" method="POST">
-            <label for="sName">Student Name: </label>
-            <input type="text" name="sName" value="" />
+        <form action="/students" method="POST">
+            <label for="studentName">Student Name: </label>
+            <input type="text" name="studentName" id="studentName"/>
 
             <label for="subject">Subject: </label>
-            <input type="text" name="subject" value="" />
+            <input type="text" name="subject" id="subject" />
 
-            <label for="month">Month: </label>
-            <input type="text" name="month" value="" />
+            <label for="date">Date: </label>
+            <input type="text" name="date" id="date" />
 
-            <input type="submit" />
+            <label for="totalSheets">Total worksheets done: </label>
+            <input type="text" name="totalSheets" id="totalSheets"/>
+
+            <label for="lastBook">Last worbook done: </label>
+            <input type="text" name="lastBook" id="lastBook"/>
+
+            <input type= "submit" />
 
         </form>
-        <script src="" async defer></script>
     </body>
 </html>

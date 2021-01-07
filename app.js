@@ -2,6 +2,9 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const xlsx = require('xlsx');
+const mongoose = require('mongoose');
+const Student = require('./models/students');
+const bodyParser = require('body-parser');
 
 function getStudentData(workbook)
 {
@@ -105,11 +108,18 @@ const upload = multer(
 
 const app = express();
 
+// connect to database
+const dbConn = 'mongodb+srv://admin:KumonAshy16@students.qkpw0.mongodb.net/students?retryWrites=true&w=majority';
+mongoose.connect(dbConn, {useNewUrlParser: true, useUnifiedTopology: true})
+.then((result) => app.listen(3000))
+.catch((err) => console.log(err)); 
+
 // set view engine
 app.set('view engine', 'ejs');
 
-// listen to port 3000
-app.listen(3000);
+// middleware and static files
+app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // routes
 app.get('/', (request, response) => 
@@ -151,6 +161,50 @@ app.post('/result', upload.single('xls'), (request, response) =>
 app.get('/manual', (request, response) => 
 {
     response.render('manual.ejs', {title: 'Manual Input'});
+})
+
+
+// database stuff
+app.get('/students', (request, response) =>
+{
+    Student.find()
+    .then((result)  => 
+    {
+        response.render('students.ejs', {title: 'All Students', students: result})
+    })
+    .catch((err) => 
+    {
+        console.log(err);
+    });
+})
+
+app.post('/students', (request, response) =>
+{
+    if(request.body.students instanceof Array)
+    {
+        var studentArray = request.body.students;
+
+        Student.create(studentArray)
+        .then((result) => {
+            response.redirect('/students')
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+    }
+    else
+    {
+        var student = new Student(request.body);
+
+        student.save()
+        .then(() =>
+        {
+            response.redirect('/students')
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
 })
 
 // 404 page

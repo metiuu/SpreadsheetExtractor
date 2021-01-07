@@ -1,0 +1,27 @@
+<html lang="en">
+  <%- include('./partials/head.ejs') %> 
+<body>
+
+  <%- include('./partials/nav.ejs') %> 
+
+  <div class="blogs content">
+      <h2>All Students</h2>
+
+      <% if (students.length > 0) { %>
+        <% students.forEach(function(s){ %>
+            <h3 class="studentName"><%= s.studentName %> </h3>
+            <p class="subject"><%= s.subject %> </p>
+            <p class="date"><%= s.date %> </p>
+            <p class="totalSheets"><%= s.totalSheets %> </p>
+            <p class="lastBook"><%= s.lastBook %> </p>
+          </a>
+        <% }) %>
+       
+      <% } else { %>
+          <p>There are no blogs to display</p>
+      <% } %>
+
+  </div>
+  
+</body>
+</html>

@@ -3,38 +3,46 @@
     <%- include('./partials/head.ejs') %>
     <body>
         <%- include('./partials/nav.ejs') %> 
-        <form action="" method="POST">
+        <form action="/students" method="POST">
             <% for (var i = 0; i < sheets.length; i++) { %>
 
-      <label for="<%= "sName" + i %>">Student Name: </label>
+      <label for="studentName">Student Name: </label>
       <input
         type="text"
-        name="<%= "sName" + i %>"
-        id="<%= "sName" + i %>"
+        name= "<%= "students[" + i +"][studentName]" %>"
+        id= "<%= "students[" + i +"][studentName]" %>"
         value="<%= sheets[i].sName %>"
       />
 
-      <label for="<%= "subject" + i %>">Subject: </label>
+      <label for="subject">Subject: </label>
       <input
         type="text"
-        name="<%= "subject" + i %>"
-        id="<%= "subject" + i %>"
+        name= "<%= "students[" + i +"][subject]" %>"
+        id= "<%= "students[" + i +"][subject" %>"
         value="<%= sheets[i].subject %>"
       />
 
-      <label for="<%= "month" + i %>">Month: </label>
+      <label for="date">Month: </label>
       <input
         type="text"
-        name="<%= "month" + i %>"
-        id="<%= "month" + i %>"
+        name= "<%= "students[" + i +"][date]" %>"
+        id= "<%= "students[" + i +"][date]" %>"
         value="<%= sheets[i].date %>"
       />
 
        <label for="total">Total worksheets done: </label>
-            <input type="text" name="total" value="<%= sheets[i].totalSheets %>" />
+        <input 
+        type= "text" 
+        name= "<%= "students[" + i +"][totalSheets]" %>"
+        id = "<%= "students[" + i +"][totalSheets]" %>"
+        value="<%= sheets[i].totalSheets %>" />
 
-            <label for="total">Last worbook done: </label>
-            <input type="text" name="last" value="<%= sheets[i].lastBook %>" />
+        <label for="last">Last worbook done: </label>
+        <input 
+        type= "text" 
+        name= "<%= "students[" + i +"][lastBook]" %>"
+        id = "<%= "students[" + i +"][lastBook]" %>"
+        value="<%= sheets[i].lastBook %>" />
       <br>
 
        <% } %>         
