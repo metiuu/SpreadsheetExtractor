@@ -17,6 +17,7 @@
             <th>Date</th>
             <th>Total Sheets Done</th>
             <th>Last Workbook Done</th>
+            <th></th>
           </thead>
           <tbody>         
             
@@ -27,8 +28,12 @@
             <td><p class="date"><%= s.date %> </p></td>
             <td><p class="totalSheets"><%= s.totalSheets %> </p></td>
             <td><p class="lastBook"><%= s.lastBook %> </p></td>
+            <td>
+              <a class="single" href="/students/<%= s._id %>">
+                Details
+              </a>
+          </td>
             </tr>
-          </a>
         <% }) %>
          </tbody>
        </table>
@@ -38,5 +43,6 @@
 
   </div>
   
+
 </body>
 </html>

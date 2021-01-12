@@ -5,6 +5,7 @@ const xlsx = require('xlsx');
 const mongoose = require('mongoose');
 const Student = require('./models/students');
 const bodyParser = require('body-parser');
+const { request } = require('express');
 
 function getStudentData(workbook)
 {
@@ -35,6 +36,9 @@ function getStudentData(workbook)
           }
         }
 
+        // round up/down to nearest multiple of 10
+        var total = Math.round(count / 10) * 10;
+
         // last worksheet done
         // last row of spreadsheet, dont know how many rows there are
         for(var rowNum = range.s.r; rowNum <= range.e.r; ++rowNum) {
@@ -55,7 +59,7 @@ function getStudentData(workbook)
           }
         }
 
-        sheets.push({sName: student_name.v, subject: subject.v, date: month.v + " " + year.v, totalSheets: count, lastBook: lastLevel + " " + lastWB})
+        sheets.push({sName: student_name.v, subject: subject.v, date: month.v + " " + year.v, totalSheets: total, lastBook: lastLevel + " " + lastWB})
     });
 
     return sheets;
@@ -192,6 +196,30 @@ app.post('/students', (request, response) =>
             console.log(err)
         })
     }
+})
+
+app.get('/students/:id', (request, response) =>
+{
+    const id = request.params.id;
+
+    Student.findById(id)
+    .then((result) => {
+        response.render('details.ejs', {student: result, title: 'Student details'})
+    })
+    .catch(err => console.log(err));
+})
+
+app.delete('/students/:id', (request,response) =>
+{
+    const id = request.params.id;
+
+    Student.findByIdAndDelete(id)
+    .then(result => {
+      response.json({ redirect: '/students' });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 })
 
 // 404 page

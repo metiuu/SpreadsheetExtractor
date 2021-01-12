@@ -1,0 +1,37 @@
+<html lang="en">
+    <%- include('./partials/head.ejs') %> 
+    <body>
+        <%- include('./partials/nav.ejs') %> 
+
+        <div class="details content">
+            <h2><%= student.studentName %> </h2>
+            <div class="content">
+                <p>Subject: <%= student.subject %> </p>
+                <p>Date: <%= student.date %> </p>
+                <p>Total worksheets done: <%= student.totalSheets %> </p>
+                <p>Last workbook done: <%= student.lastBook %> </p>
+            </div>
+            <a class="delete" data-doc="<%= student._id %>">
+                <img src="/trashcan.svg" alt="delete icon">
+            </a>
+        </div>
+
+          <script>
+            const trashcan = document.querySelector('a.delete');
+            trashcan.addEventListener('click', (e) => {
+            const endpoint = `/students/${trashcan.dataset.doc}`;
+            fetch(endpoint, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then((data) => window.location.href = data.redirect)
+            .catch(err => console.log(err));
+            });
+            
+        </script>
+
+    
+
+    </body>
+    
+</html>

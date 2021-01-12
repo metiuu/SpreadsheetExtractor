@@ -1,43 +1,56 @@
 #nav {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 #nav h1 {
-    margin: 0
+  margin: 0;
 }
 
 #nav p {
-    padding: 0;
+  padding: 0;
 }
 
 #nav ul {
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: row;
-    
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
 }
 
 #nav ul li a {
-    color:lightgray;
+  color: lightgray;
 }
 
 #nav ul li a:hover {
-    color:white;
+  color: white;
 }
-.nav-item{
-    display: inline;
+.nav-item {
+  display: inline;
 }
 
 .navbar-text {
-    display: block;
+  display: block;
 }
 
-
 #file-input {
-    display: block;
-    position: relative;
-    margin: 10px 0 10px 0;
+  display: block;
+  position: relative;
+  margin: 10px 0 10px 0;
 }
 
 h2 {
-    margin: 10px 0 10px 0;
+  margin: 10px 0 10px 0;
+}
+
+.details {
+  position: relative;
+}
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  padding: 8px;
+}
+.delete:hover {
+  cursor: pointer;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
 }
