@@ -1,48 +1,78 @@
 <html lang="en">
-  <%- include('./partials/head.ejs') %> 
-   
-<body>
+  <%- include('./partials/head.ejs') %>
 
-  <%- include('./partials/nav.ejs') %> 
+  <body>
+    <%- include('./partials/nav.ejs') %>
 
-  <div class="container">
+    <div class="container">
       <h2>All Students</h2>
 
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">@</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search for username..."
+          aria-label="search"
+          aria-describedby="basic-addon1"
+          id="search_input"
+          onkeyup="Filter()"
+        />
+      </div>
       <% if (students.length > 0) { %>
 
-        <table class="table table-hover">
-          <thead class="thead-dark">
-            <th>Student Name</th>
-            <th>Subject</th>
-            <th>Date</th>
-            <th>Total Sheets Done</th>
-            <th>Last Workbook Done</th>
-            <th></th>
-          </thead>
-          <tbody>         
-            
-        <% students.forEach(function(s){ %>
-            <tr>
-            <td><p class="studentName"><%= s.studentName %> </p></td>
-            <td><p class="subject"><%= s.subject %> </p></td>
-            <td><p class="date"><%= s.date %> </p></td>
-            <td><p class="totalSheets"><%= s.totalSheets %> </p></td>
-            <td><p class="lastBook"><%= s.lastBook %> </p></td>
+      <table class="table table-hover" id="student_table">
+        <thead class="thead-dark">
+          <th>Student Name</th>
+          <th>Subject</th>
+          <th>Date</th>
+          <th>Total Sheets Done</th>
+          <th>Last Workbook Done</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <% students.forEach(function(s){ %>
+          <tr>
+            <td><p class="studentName"><%= s.studentName %></p></td>
+            <td><p class="subject"><%= s.subject %></p></td>
+            <td><p class="date"><%= s.date %></p></td>
+            <td><p class="totalSheets"><%= s.totalSheets %></p></td>
+            <td><p class="lastBook"><%= s.lastBook %></p></td>
             <td>
-              <a class="single" href="/students/<%= s._id %>">
-                Details
-              </a>
-          </td>
-            </tr>
-        <% }) %>
-         </tbody>
-       </table>
+              <a class="single" href="/students/<%= s._id %>"> Details </a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
       <% } else { %>
-          <p>There are no students to display</p>
+      <p>There are no students to display</p>
       <% } %>
+    </div>
 
-  </div>
-  
+    <script>
+      function Filter() {
+        var searchInput = document.getElementById("search_input");
+        var filter = searchInput.value.toUpperCase();
+        var studentTable = document.getElementById("student_table");
+        var rows = studentTable.getElementsByTagName("tr");
 
-</body>
+        if (searchInput !== "") {
+          for (i = 1; i < rows.length; i++) {
+            let td = rows[i]
+              .getElementsByTagName("td")[0]
+              .getElementsByTagName("p")[0];
+            let sName = td.innerText || td.textContent;
+            if (sName.toUpperCase().indexOf(filter) > -1) {
+              rows[i].style.display = "";
+            } else {
+              rows[i].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+  </body>
 </html>

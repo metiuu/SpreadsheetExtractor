@@ -227,7 +227,7 @@ app.post("/update", (req, res) => {
   Student.findByIdAndUpdate(student.studentId, {
     studentName: student.studentName,
     subject: student.subject,
-    totalSheets: student.subject,
+    totalSheets: student.totalSheets,
     lastBook: student.lastBook
   })
     .then((result) => {

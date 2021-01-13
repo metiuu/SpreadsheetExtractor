@@ -6,7 +6,7 @@
       <div class="details content">
         <h2><%= student.studentName %></h2>
         <div class="content">
-          <label class="col-sm-3 col-form-label">Subject: </label>
+          <!-- <label class="col-sm-3 col-form-label">Subject: </label>
           <span class="col-sm-9"><%= student.subject %></span>
 
           <br />
@@ -21,7 +21,26 @@
           <label class="col-sm-3 col-form-label">Last Workbook Done: </label>
           <span class="col-sm-9"><%= student.lastBook %></span>
 
-          <br />
+          <br /> -->
+
+          <table class="table table-bordered table-hover">
+            <tr>
+              <td class="table-light"><strong>Subject</strong></td>
+              <td><%= student.subject %></td>
+            </tr>
+            <tr>
+              <td class="table-light"><strong>Date</strong></td>
+              <td><%= student.date %></td>
+            </tr>
+            <tr>
+              <td class="table-light"><strong>Total Worksheets Done</strong></td>
+              <td><%= student.totalSheets %></td>
+            </tr>
+            <tr>
+              <td class="table-light"><strong>Last Workbook Done</strong></td>
+              <td><%= student.lastBook %></td>
+            </tr>
+          </table>
 
           <a href="/edit/<%= student._id %>" class="btn btn-primary">Edit</a>
           <button class="btn btn-danger del">Delete</button>

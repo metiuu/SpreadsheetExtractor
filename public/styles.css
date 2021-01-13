@@ -63,3 +63,11 @@ h2 {
 .invisible {
   display: none;
 }
+
+td.table-light {
+  width: 45%;
+}
+
+.container h3 {
+  margin: 30px 0px;;
+}
