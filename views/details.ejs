@@ -43,7 +43,7 @@
           </table>
 
           <a href="/edit/<%= student._id %>" class="btn btn-primary">Edit</a>
-          <button class="btn btn-danger del">Delete</button>
+          <button class="btn btn-danger del" data-doc="<%= student._id %>">Delete</button>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
       const trashcan = document.querySelector("button.del");
       trashcan.addEventListener("click", (e) => {
         const endpoint = `/students/${trashcan.dataset.doc}`;
-
+        
         fetch(endpoint, {
           method: "DELETE",
         })
