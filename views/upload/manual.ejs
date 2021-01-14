@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('./partials/head.ejs') %>
+  <%- include('../partials/head.ejs') %>
   <body>
-    <%- include('./partials/nav.ejs') %>
+    <%- include('../partials/nav.ejs') %>
     <div class="container">
       <h3>Enter data from spreadsheet</h3>
       <form action="/students" method="POST">
@@ -12,6 +12,7 @@
           <div class="col-sm-9">
             <input
               type="text"
+              placeholder="Enter student name"
               name="studentName"
               id="studentName"
               class="form-control"
@@ -24,6 +25,7 @@
           <div class="col-sm-9">
             <input
               type="text"
+              placeholder="Enter subject (Maths/English)"
               name="subject"
               id="subject"
               class="form-control"
@@ -34,7 +36,7 @@
         <div class="form-group row">
           <label for="date" class="col-sm-3 col-form-label">Date</label>
           <div class="col-sm-9">
-            <input type="text" name="date" id="date" class="form-control" />
+            <input type="text" placeholder="Enter month and year" name="date" id="date" class="form-control" />
           </div>
         </div>
 
@@ -44,6 +46,7 @@
           <div class="col-sm-9">
             <input
               type="text"
+              placeholder="Enter total worksheets done by student"
               name="totalSheets"
               id="totalSheets"
               class="form-control"
@@ -58,6 +61,7 @@
           <div class="col-sm-9">
             <input
               type="text"
+              placeholder="Enter last workbok done by student"
               name="lastBook"
               id="lastBook"
               class="form-control"
