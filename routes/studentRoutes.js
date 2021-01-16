@@ -1,9 +1,10 @@
 const express = require("express");
 const studentController = require('../controllers/studentController');
+const {ensureAuthenticated} = require('../config/auth');
 
 const studentRouter = express.Router();
 
-studentRouter.get("/students", studentController.all_students);
+studentRouter.get("/students", ensureAuthenticated, studentController.all_students);
 
 studentRouter.post("/students", studentController.create_student);
 

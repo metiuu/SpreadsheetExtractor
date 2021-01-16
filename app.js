@@ -1,11 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+const bcrypt = require('bcrypt');
+const flash = require('express-flash');
+const session = require('express-session');
+const passport = require('passport');
+const {ensureAuthenticated} = require('./config/auth');
+
+// routes
 const uploadRoute = require("./routes/uploadRoute");
+const loginRoute = require("./routes/loginRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 
 // initialize express app
 const app = express();
+
+// passport config
+require('./config/passport')(passport);
 
 // connect to database
 const dbConn =
@@ -20,16 +30,36 @@ app.set("view engine", "ejs");
 
 // middleware and static files
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.static("public"));
 
+// express session
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// flash
+app.use(flash());
+
+// Global variables (for flash messages)
+app.use((request, response, next) => {
+  response.locals.success_message = request.flash('success_message');
+  response.locals.error_message = request.flash('error_message');
+  response.locals.error = request.flash('error_message');
+  next();
+})
+
 // routes
-app.get("/", (request, response) => {
+app.get("/", ensureAuthenticated, (request, response) => {
   response.render("index.ejs", { title: "Home Page" });
 });
 
-app.get("/upload", (request, response) => {
+app.get("/upload", ensureAuthenticated, (request, response) => {
   response.render("upload/upload.ejs", { title: "Upload Page" });
 });
 
@@ -37,9 +67,12 @@ app.get("/result", (request, response) => {
   response.redirect("/manual");
 });
 
-app.get("/manual", (request, response) => {
+app.get("/manual", ensureAuthenticated, (request, response) => {
   response.render("upload/manual.ejs", { title: "Manual Input" });
 });
+
+// login
+app.use(loginRoute);
 
 // upload page
 app.use(uploadRoute);

@@ -24,7 +24,9 @@ const studentSchema = new Schema({
     },
 }, { timestamps: true });
 
-const StudentModel = mongoose.model('Student', studentSchema);
+const studentDB = mongoose.connection.useDb('students');
+
+const StudentModel = studentDB.model('Student', studentSchema);
 
 // export module
 module.exports = StudentModel;
