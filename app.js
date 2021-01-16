@@ -50,7 +50,7 @@ app.use(flash());
 app.use((request, response, next) => {
   response.locals.success_message = request.flash('success_message');
   response.locals.error_message = request.flash('error_message');
-  response.locals.error = request.flash('error_message');
+  response.locals.error = request.flash('error');
   next();
 })
 
