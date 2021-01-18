@@ -7,6 +7,7 @@ const passport = require('passport');
 const {ensureAuthenticated} = require('./config/auth');
 
 // routes
+const indexRoute = require("./routes/indexRoutes");
 const uploadRoute = require("./routes/uploadRoute");
 const loginRoute = require("./routes/loginRoutes");
 const studentRoutes = require("./routes/studentRoutes");
@@ -55,21 +56,7 @@ app.use((request, response, next) => {
 })
 
 // routes
-app.get("/", ensureAuthenticated, (request, response) => {
-  response.render("index.ejs", { title: "Home Page" });
-});
-
-app.get("/upload", ensureAuthenticated, (request, response) => {
-  response.render("upload/upload.ejs", { title: "Upload Page" });
-});
-
-app.get("/result", (request, response) => {
-  response.redirect("/manual");
-});
-
-app.get("/manual", ensureAuthenticated, (request, response) => {
-  response.render("upload/manual.ejs", { title: "Manual Input" });
-});
+app.use(indexRoute);
 
 // login
 app.use(loginRoute);
