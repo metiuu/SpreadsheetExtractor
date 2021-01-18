@@ -25,17 +25,20 @@
 
       <table class="table table-hover" id="student_table">
         <thead class="thead-dark">
-          <th>Student Name</th>
-          <th>Subject</th>
-          <th>Date</th>
-          <th>Total Sheets Done</th>
-          <th>Last Workbook Done</th>
+          <th onclick="SortByString(0)" class="asc">Last Name</th>
+          <th onclick="SortByString(1)" class="asc">First Name</th>
+          <th onclick="SortByString(2)" class="asc">Subject</th>
+          <th onclick="SortByDate()" class="asc">Date</th>
+          <th onclick="SortByString(4)" class="asc">Total Sheets Done</th>
+          <th onclick="SortByString(5)" class="asc">Last Workbook Done</th>
           <th></th>
         </thead>
         <tbody>
-          <% students.forEach(function(s){ %>
+          <% students.forEach(function(s){ %> <% let str = s.studentName; %> <%
+          let index = str.indexOf(" ")%>
           <tr>
-            <td><p class="studentName"><%= s.studentName %></p></td>
+            <td><p class="studentName"><%= str.substr(index) %></p></td>
+            <td><p class="studentName"><%= str.substr(0, index) %></p></td>
             <td><p class="subject"><%= s.subject %></p></td>
             <td><p class="date"><%= s.date %></p></td>
             <td><p class="totalSheets"><%= s.totalSheets %></p></td>
@@ -61,16 +64,177 @@
 
         if (searchInput !== "") {
           for (i = 1; i < rows.length; i++) {
-            let td = rows[i]
+            let lName = rows[i]
               .getElementsByTagName("td")[0]
-              .getElementsByTagName("p")[0];
-            let sName = td.innerText || td.textContent;
+              .getElementsByTagName("p")[0].innerHTML;
+            let fName = rows[i]
+              .getElementsByTagName("td")[1]
+              .getElementsByTagName("p")[0].innerHTML;
+            let sName = fName + " " + lName;
             if (sName.toUpperCase().indexOf(filter) > -1) {
               rows[i].style.display = "";
             } else {
               rows[i].style.display = "none";
             }
           }
+        }
+      }
+
+      function SortByString(n) {
+        var table = document.getElementById("student_table");
+        var header = table.getElementsByTagName("th")[n];
+        var rows, i, x, y, shouldSwitch, dir;
+
+        var switchCount = 0;
+        var switching = true;
+
+        dir = header.className;
+
+        // loop until no switching has been done
+        while (switching) {
+          switching = false;
+          rows = table.getElementsByTagName("tr");
+
+          for (var i = 1; i < rows.length - 1; ++i) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("td")[n].innerHTML.toLowerCase();
+            y = rows[i + 1]
+              .getElementsByTagName("td")
+              [n].innerHTML.toLowerCase();
+
+            if (dir == "asc") {
+              if (x.localeCompare(y) == 1) {
+                shouldSwitch = true;
+                break;
+              }
+            } else if (dir == "desc") {
+              if (x.localeCompare(y) == -1) {
+                shouldSwitch = true;
+                break;
+              }
+            }
+          }
+
+          if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchCount++;
+          } else {
+            if (switchCount == 0 && dir == "asc") {
+              dir = "desc";
+              table.getElementsByTagName("th")[n].className = "desc";
+              switching = true;
+            } else if (switchCount == 0 && dir == "desc") {
+              dir = "asc";
+              table.getElementsByTagName("th")[n].className = "asc";
+              switching = true;
+            }
+          }
+        }
+      }
+
+      function SortByDate() {
+        var table = document.getElementById("student_table");
+        var header = table.getElementsByTagName("th")[3];
+
+        var rows, i, x, y, shouldSwitch, dir;
+
+        var switchCount = 0;
+        var switching = true;
+
+        dir = header.className;
+
+        // loop until no switching has been done
+        while (switching) {
+          switching = false;
+          rows = table.getElementsByTagName("tr");
+
+          for (var i = 1; i < rows.length - 1; ++i) {
+            shouldSwitch = false;
+            x = GetYearMonthNumber(rows[i].getElementsByTagName("td")[3].getElementsByTagName("p")[0].innerHTML);
+            y = GetYearMonthNumber(rows[i + 1]
+              .getElementsByTagName("td")[3].
+              getElementsByTagName("p")[0].innerHTML);
+
+            if (dir == "asc") {
+              if (x.localeCompare(y) == 1) {
+                shouldSwitch = true;
+                break;
+              }
+            } else if (dir == "desc") {
+              if (x.localeCompare(y) == -1) {
+                shouldSwitch = true;
+                break;
+              }
+            }
+          }
+
+          if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchCount++;
+          } else {
+            if (switchCount == 0 && dir == "asc") {
+              dir = "desc";
+              table.getElementsByTagName("th")[3].className = "desc";
+              switching = true;
+            } else if (switchCount == 0 && dir == "desc") {
+              dir = "asc";
+              table.getElementsByTagName("th")[3].className = "asc";
+              switching = true;
+            }
+          }
+        }
+      }
+
+      function GetYearMonthNumber(str) {
+        if (str.split(" ").length > 1) {
+          var month = str.split(" ")[0];
+          var year = str.split(" ")[1];
+          var m;
+
+          switch (month) {
+            case "Jan":
+              m = "01";
+              break;
+            case "Feb":
+              m = "02";
+              break;
+            case "Mar":
+              m = "03";
+              break;
+            case "Apr":
+              m = "04";
+              break;
+            case "May":
+              m = "06";
+              break;
+            case "Jul":
+              m = "07";
+              break;
+            case "Aug":
+              m = "08";
+              break;
+            case "Sep":
+              m = "09";
+              break;
+            case "Oct":
+              m = "10";
+              break;
+            case "Nov":
+              m = "11";
+              break;
+            case "Dec":
+              m = "12";
+              break;
+            default:
+              m = "00";
+          }
+
+          console.log(`${year}${m}`)
+          return `${year}${m}`;
+        } else {
+          return str;
         }
       }
     </script>

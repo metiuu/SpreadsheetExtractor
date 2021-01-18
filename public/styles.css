@@ -71,3 +71,7 @@ td.table-light {
 .container h3 {
   margin: 30px 0px;;
 }
+
+.asc, .desc {
+  cursor: pointer;
+}
