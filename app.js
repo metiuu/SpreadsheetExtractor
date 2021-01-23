@@ -18,7 +18,7 @@ const app = express();
 // passport config
 require('./config/passport')(passport);
 
-var port_number = server.listen(process.env.PORT || 3000);
+var port_number = process.env.PORT || 3000;
 
 
 // connect to database
